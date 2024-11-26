@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
 
 class ProfileController extends Controller
@@ -57,4 +58,24 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Change the user's preferred language.
+     */
+    public function changeLanguage(Request $request): RedirectResponse
+    {
+        $lang = $request->lang;
+
+        if (!in_array($lang, ['en', 'de'])) {
+            abort(400);
+        }
+
+        $request->user()->language = $lang;
+        $request->user()->save();
+
+        Session::put('locale', $lang);
+
+        return redirect()->back();
+    }
+
 }

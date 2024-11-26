@@ -13,9 +13,18 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('dashboard.dashboard') }}
                     </x-nav-link>
                 </div>
+            </div>
+
+            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                @php
+                    $currentLanguage = auth()->user()->language ?? app()->getLocale(); // Fallback to app locale if user's language is not set
+                @endphp
+                <a href="{{ route('profile.language', $currentLanguage === 'de' ? 'en' : 'de') }}" class="inline-flex items-center">
+                    {{ $currentLanguage === 'de' ? 'EN' : 'DE' }}
+                </a>
             </div>
 
             <!-- Settings Dropdown -->
@@ -68,7 +77,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('dashboard.dashboard') }}
             </x-responsive-nav-link>
         </div>
 
